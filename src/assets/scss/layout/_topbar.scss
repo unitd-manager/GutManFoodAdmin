@@ -1,0 +1,53 @@
+.fixedTopbar {
+  .topbar {
+    position: fixed;
+    left: $sidebarWidth;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  .HorizontalTopbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+  }
+  &.contentArea {
+    padding-top: $topbarHeight;
+  }
+}
+.ddWidth {
+  width: 300px;
+}
+
+.mega-dropdown {
+  position: static;
+  .dropdown-menu {
+    padding: 30px;
+    width: 96%;
+    left: -2% !important;
+    max-height: 480px;
+    top: 11px !important;
+    overflow: auto;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .fixedTopbar {
+    .topbar {
+      width: calc(100% - #{$sidebarWidth});
+      left: auto;
+    }
+  }
+  .isMiniSidebar .fixedTopbar .topbar {
+    width: calc(100% - #{$miniSidebarWidth});
+    left: auto;
+  }
+}
+@include media-breakpoint-down(lg) {
+  .ddWidth {
+    width: 100vw;
+    max-width: 400px;
+  }
+}

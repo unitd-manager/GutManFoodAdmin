@@ -1,0 +1,12 @@
+:root{
+    --bs-font-sans-serif: "Nunito",sans-serif;
+}
+.rdt_TableHeadRow:first-child {
+    min-width: 10px;
+}
+input[type="text"], select {
+    width: 100%;
+}
+.sidebarArea .nav-link {
+    font-size: 11px !important;
+}

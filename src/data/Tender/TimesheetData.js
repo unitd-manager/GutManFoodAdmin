@@ -1,0 +1,171 @@
+// import React from "react";
+// import * as Icon from 'react-feather';
+
+export const columns = [
+    {
+      name: "#",
+      selector: "id",
+      sortable: true,
+      grow:0,
+      width:'max-content',
+      wrap: true
+    },
+    {
+        name: "",
+        selector: "edit",
+        sortable: true,
+        grow:0,
+        width:'auto',
+    },
+    {
+      name: "Staff",
+      selector: "staff",
+      sortable: true,
+      width:'auto',
+      wrap: true,
+    },
+    {
+      name: "	Date",
+      selector: "date",
+      sortable: true,
+    },
+    {
+      name: "Time In",
+      selector: "timein",
+      sortable: true
+    },
+    {
+        name: "	Time Out",
+        selector: "timeout",
+        sortable: true,
+      },
+    {
+      name: "On Leave",
+      selector: "leave",
+      sortable: true,
+    },
+  ];
+  
+  export const data = [
+    {
+      id: 1,
+      staff:"renuka",
+      date: "Beetlejuice",
+      timein: "1988",
+      timeout: "Tim Burton",
+      leave: "92",
+    },
+    {
+      id: 2,
+      staff:"",
+      date: "The Cotton Club",
+      timein: "1984",
+      timeout: "Francis Ford Coppola",
+      leave: "127",
+    },
+    {
+      id: 3,
+      staff:"",
+      date: "The Shawshank Redemption",
+      timein: "1994",
+      timeout: "Frank Darabont",
+      leave: "142",
+    },
+    {
+      id: 4,
+      staff:"",
+      date: "Crocodile Dundee",
+      timein: "1986",
+      timeout: "Peter Faiman",
+      leave: "97",
+    },
+    {
+      id: 5,
+      staff:"",
+      date: "Valkyrie",
+      timein: "2008",
+      timeout: "Bryan Singer",
+      leave: "121",  
+    },
+    {
+      id: 6,
+      staff:"",
+      date: "Ratatouille",
+      timein: "2007",
+      timeout: "Brad Bird, Jan Pinkava",
+      leave: "111",
+    },
+    {
+      id: 7,
+      staff:"",
+      date: "City of God",
+      timein: "2002",
+      timeout: "Fernando Meirelles, Kátia Lund",
+      leave: "130",
+    },
+    {
+      id: 8,
+      staff:"",
+      date: "Memento",
+      timein: "2000",
+      timeout: "Christopher Nolan",
+      leave: "113",
+    },
+    {
+      id: 9,
+      staff:"",
+      date: "The Intouchables",
+      timein: "2011",
+      timeout: "Olivier Nakache, Eric Toledano",
+      leave: "112",
+    },
+    {
+      id: 10,
+      staff:"",
+      date: "Stardust",
+      timein: "2007",
+      timeout: "Matthew Vaughn",
+      leave: "127",
+    },
+    {
+      id: 11,
+      staff:"",
+      date: "Apocalypto",
+      timein: "2006",
+      timeout: "Mel Gibson",
+      leave: "139",
+    },
+    {
+      id: 12,
+      staff:"",
+      date: "Taxi Driver",
+      timein: "1976",
+      timeout: "Martin Scorsese",
+      leave: "113",
+    },
+    {
+      id: 13,
+      staff:"",
+      date: "No Country for Old Men",
+      timein: "2007",
+      timeout: "Ethan Coen, Joel Coen",
+      leave: "122",
+    },
+    {
+      id: 14,
+      staff:"",
+      date: "Planet 51",
+      timein: "2009",
+      timeout: "Jorge Blanco, Javier Abad, Marcos Martínez",
+      leave: "91",
+    },
+    {
+      id: 15,
+      staff:"",
+      date: "Looper",
+      timein: "2012",
+      timeout: "Rian Johnson",
+      leave: "119",
+    },
+  ];
+  

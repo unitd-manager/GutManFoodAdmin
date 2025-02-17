@@ -1,0 +1,1 @@
+{"version":3,"sources":["layouts/theme/DarkTheme.js"],"names":["DarkTheme"],"mappings":"sIAAA,+BAOeA,UAJG,WAChB,OAAO","file":"static/js/116.66062d10.chunk.js","sourcesContent":["import React from 'react';\r\nimport '../../assets/scss/styledark.scss';\r\n\r\nconst DarkTheme = () => {\r\n  return <></>;\r\n};\r\n\r\nexport default DarkTheme;\r\n"],"sourceRoot":""}
