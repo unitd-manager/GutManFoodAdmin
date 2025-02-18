@@ -14,6 +14,7 @@ import {
 import PropTypes from 'prop-types';
 import api from '../../constants/api';
 import message from '../Message';
+import DeliveryModalTable from './DeliveryModalTable';
 
 function DeliveryOrderEditModal({
   deliveryOrderEditModal,
@@ -26,6 +27,20 @@ function DeliveryOrderEditModal({
     setDeliveryOrderEditModal: PropTypes.func,
   };
   const [deliverOrderProducts, setDeliveryOrderProducts] = useState([]);
+  const [delivery, setDelivery] = useState();
+
+  const handleInputs = (e) => {
+    setDelivery({ ...delivery, [e.target.name]: e.target.value });
+  };
+
+  const getDeliveryOrder = () => {
+    api
+      .post('/purchaseorder/getDeliveryOrderss', { delivery_order_id: deliveryOrderId})
+      .then((res) => {
+        setDelivery(res.data.data[0]);
+        console.log('delivery order response', res.data.data[0]);
+      });
+  };
 
   //get products
   const getDeliveryOrderProducts = () => {
@@ -38,6 +53,20 @@ function DeliveryOrderEditModal({
         message('unable to get products', 'error');
       });
   };
+
+  const editDeliveryorder = () => {
+    
+    api
+      .post('/purchaseorder/editDeliveryOrder', delivery)
+      .then(() => {
+        message('Record edited successfully.', 'success');
+        window.location.reload();
+      })
+      .catch(() => {
+        message('Network connection error.');
+      });
+  };
+
   //edit delivery items
   const editDeliveryProducts = () => {
     deliverOrderProducts.forEach((el) => {
@@ -60,14 +89,13 @@ function DeliveryOrderEditModal({
   }
 
   const supplierColumn = [
+  
     {
-      name: 'Product Name	',
+      name: 'Work Description',
     },
+   
     {
       name: 'Quantity',
-    },
-    {
-      name: 'Status	',
     },
     {
       name: 'Remarks',
@@ -75,6 +103,7 @@ function DeliveryOrderEditModal({
   ];
   useEffect(() => {
     getDeliveryOrderProducts();
+    getDeliveryOrder();
   }, [deliveryOrderId]);
   return (
     <div>
@@ -92,6 +121,11 @@ function DeliveryOrderEditModal({
             X{' '}
           </Button>
         </ModalHeader>
+        <Form>
+            <Row>
+              <DeliveryModalTable delivery={delivery} handleInputs={handleInputs} />
+              
+            </Row>
         <ModalBody>
           <Row>
             <Col md="12">
@@ -109,42 +143,28 @@ function DeliveryOrderEditModal({
                           return (
                             <>
                               <tr key={element.delivery_order_id}>
-                                <td data-label="title">
-                                  <Input type="text" name="title" value={element.item_title} />
-                                </td>
-                                <td data-label="quantity">
-                                  <Input
-                                    type="text"
-                                    name="quantity"
-                                    value={element.quantity}
-                                    onChange={(e) => updateState(index, 'quantity', e)}
-                                  />
-                                </td>
-                                <td data-label="status">
-                                  <Input
-                                    type="select"
-                                    value={element.status}
-                                    name="status"
-                                    onChange={(e) => updateState(index, 'status', e)}
-                                  >
-                                    <option defaultValue="selected">Please Select</option>
-                                    <option value="in progress">in progress</option>
-                                    <option value="sent to supplier">sent to supplier</option>
-                                    <option value="order acknowledged">order acknowledged</option>
-                                    <option value="partially received">partially received</option>
-                                    <option value="closed">closed</option>
-                                    <option value="on hold">on hold</option>
-                                    <option value="cancelled">cancelled</option>
-                                  </Input>
-                                </td>
-                                <td data-label="remarks">
-                                  <Input
-                                    type="text"
-                                    name="remarks"
-                                    value={element.remarks}
-                                    onChange={(e) => updateState(index, 'remarks', e)}
-                                  />
-                                </td>
+                            
+                        <td data-label="Item">
+                          <Input disabled type="text" name="item_title" value={element.item_title} />
+                        </td>
+                       
+                       
+                        <td data-label="Quantity">
+                          <Input
+                            type="text"
+                            name="quantity"
+                            value={element.quantity}
+                            onChange={(e) => updateState(index, 'quantity', e)}
+                          ></Input>
+                        </td>
+                        <td data-label="remarks">
+                          <Input
+                            type="text"
+                            name="remarks"
+                            value={element.remarks}
+                            onChange={(e) => updateState(index, 'remarks', e)}
+                          ></Input>
+                        </td>
                               </tr>
                             </>
                           );
@@ -156,12 +176,14 @@ function DeliveryOrderEditModal({
             </Col>
           </Row>
         </ModalBody>
+        </Form>
         <ModalFooter>
           <Button
             className="shadow-none"
             color="primary"
             onClick={() => {
               editDeliveryProducts();
+              editDeliveryorder();
               setDeliveryOrderEditModal(false);
             }}
           >
@@ -174,7 +196,9 @@ function DeliveryOrderEditModal({
           >
             Cancel
           </Button>
+          
         </ModalFooter>
+        
       </Modal>
     </div>
   );

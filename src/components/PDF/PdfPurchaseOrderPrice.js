@@ -393,7 +393,7 @@ const PdfPurchaseOrderPrice = () => {
   return (
     <>
       <Button type="submit" className="btn btn-dark mr-2" onClick={GetPdf}>
-        Print Purchase Order Price
+        Print Purchase Order
       </Button>
     </>
   );

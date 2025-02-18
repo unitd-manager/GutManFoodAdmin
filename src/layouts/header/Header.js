@@ -81,7 +81,7 @@ const Header = () => {
        
         
           <Label className='text-white'>
-            FoodEcomAdmin
+            GutManFoodsAdmin
           </Label>
       {/* </Nav> */}
       {/******************************/}

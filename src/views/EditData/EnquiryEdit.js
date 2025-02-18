@@ -116,7 +116,7 @@ const EnquiryEdit = () => {
               </Col>
               <Col>
                 <Button
-                  className="shadow-none"
+                   className="shadow-none"
                   color="dark"
                   onClick={() => {
                     backToList();

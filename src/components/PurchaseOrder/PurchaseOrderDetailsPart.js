@@ -3,7 +3,7 @@ import { Row, Col, Input, Form, FormGroup, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import ComponentCard from '../ComponentCard';
-
+ 
 function PurchaseOrderDetailsPart({ purchaseDetails, handleInputs, supplier }) {
   PurchaseOrderDetailsPart.propTypes = {
     purchaseDetails: PropTypes.object,
@@ -16,26 +16,9 @@ function PurchaseOrderDetailsPart({ purchaseDetails, handleInputs, supplier }) {
         <FormGroup>
           <ComponentCard
             title="PurchaseOrder Details"
-            righttitle={
-              <Row>
-                <Col className="fs-10 small">
-                  <small>Creation :</small>
-                  <small>
-                    {purchaseDetails && purchaseDetails.created_by}
-                    {purchaseDetails && purchaseDetails.creation_date}
-                  </small>
-                </Col>
-
-                <Col className="fs-10 small">
-                  <small>Modification :</small>
-
-                  <small>
-                    {purchaseDetails && purchaseDetails.modified_by}
-                    {purchaseDetails && purchaseDetails.modification_date}
-                  </small>
-                </Col>
-              </Row>
-            }
+            
+            creationModificationDate={purchaseDetails}
+            
           >
             <Row>
               <Col md="3">
@@ -105,9 +88,13 @@ function PurchaseOrderDetailsPart({ purchaseDetails, handleInputs, supplier }) {
                   <Input
                     type="select"
                     onChange={handleInputs}
-                    value={purchaseDetails && purchaseDetails.prirority}
+                    name='priority'
+                    value={purchaseDetails && purchaseDetails.priority}
                   >
                     <option defaultValue="selected">Please Select</option>
+                    <option value="priority 1">priority 1</option>
+                    <option value="priority 2">priority 2</option>
+                    <option value="priority 3">priority 3</option>
                   </Input>
                 </FormGroup>
               </Col>
@@ -135,6 +122,32 @@ function PurchaseOrderDetailsPart({ purchaseDetails, handleInputs, supplier }) {
                       purchaseDetails && moment(purchaseDetails.follow_up_date).format('YYYY-MM-DD')
                     }
                     name="follow_up_date"
+                  />
+                </FormGroup>
+              </Col>
+              <Col md="3">
+                <FormGroup>
+                  <Label>Delivery Date</Label>
+                  <Input
+                    type="date"
+                    onChange={handleInputs}
+                    value={
+                      purchaseDetails && moment(purchaseDetails.delivery_date).format('YYYY-MM-DD')
+                    }
+                    name="delivery_date"
+                  />
+                </FormGroup>
+              </Col>
+              <Col md="3">
+                <FormGroup>
+                  <Label>Yr Quote Date</Label>
+                  <Input
+                    type="date"
+                    onChange={handleInputs}
+                    value={
+                      purchaseDetails && moment(purchaseDetails.yr_quote_date).format('YYYY-MM-DD')
+                    }
+                    name="yr_quote_date"
                   />
                 </FormGroup>
               </Col>
@@ -196,6 +209,39 @@ function PurchaseOrderDetailsPart({ purchaseDetails, handleInputs, supplier }) {
                     type="text"
                     value={purchaseDetails && purchaseDetails.supplier_inv_code}
                     name="supplier_inv_code"
+                    onChange={handleInputs}
+                  ></Input>
+                </FormGroup>
+              </Col>
+              <Col md="3">
+                <FormGroup>
+                  <Label>Yr Ref No</Label>
+                  <Input
+                    type="text"
+                    value={purchaseDetails && purchaseDetails.supplier_reference_no}
+                    name="supplier_reference_no"
+                    onChange={handleInputs}
+                  ></Input>
+                </FormGroup>
+              </Col>
+              <Col md="3">
+                <FormGroup>
+                  <Label>Item</Label>
+                  <Input
+                    type="textArea"
+                    value={purchaseDetails && purchaseDetails.purchase_item}
+                    name="purchase_item"
+                    onChange={handleInputs}
+                  ></Input>
+                </FormGroup>
+              </Col>
+              <Col md="3">
+                <FormGroup>
+                  <Label>Currency</Label>
+                  <Input
+                    type="text"
+                    value={purchaseDetails && purchaseDetails.currency}
+                    name="currency"
                     onChange={handleInputs}
                   ></Input>
                 </FormGroup>
