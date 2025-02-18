@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { ToastContainer } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,10 +6,28 @@ import moment from 'moment';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import ComponentCard from '../../components/ComponentCard';
 import api from '../../constants/api';
+import creationdatetime from '../../constants/creationdatetime';
 import message from '../../components/Message';
+import AppContext from '../../context/AppContext';
+
 
 const PurchaseOrderDetails = () => {
   //All state variables
+  const getSelectedLocationFromLocalStorage = () => {
+    const locations = localStorage.getItem('selectedLocation');
+    const loc=JSON.parse(locations);
+    return locations ? Number(loc) : null;
+  };
+
+  const selectedLocation = getSelectedLocationFromLocalStorage();
+
+  //console.log('Leavesite',selectedLocation)
+
+  const getSelected = () => {
+    return localStorage.getItem('selectedBranch') || '';
+  };
+  
+ const branchId = getSelected()
   const [supplier, setSupplier] = useState();
   const [purchaseForms, setPurchaseForms] = useState({
     supplier_id: '',
@@ -32,10 +50,16 @@ const PurchaseOrderDetails = () => {
   const handleInputs = (e) => {
     setPurchaseForms({ ...purchaseForms, [e.target.name]: e.target.value });
   };
-  //inserting data of Purchase Order
-  const insertPurchaseOrder = () => {
+  const { loggedInuser } = useContext(AppContext);
+   //inserting data of Purchase Order
+   const insertPurchaseOrder = (code) => { 
     purchaseForms.purchase_order_date = moment();
+    purchaseForms.creation_date = creationdatetime;
+    purchaseForms.site_id = selectedLocation;
+    purchaseForms.branch_id = branchId;
+    purchaseForms.created_by = loggedInuser.first_name;
 
+    purchaseForms.po_code=code;
     if (purchaseForms.supplier_id !== '') {
       api
         .post('/purchaseorder/insertPurchaseOrder', purchaseForms)
@@ -43,8 +67,8 @@ const PurchaseOrderDetails = () => {
           const insertedDataId = res.data.data.insertId;
           message('Purchase Order inserted successfully.', 'success');
           setTimeout(() => {
-            navigate(`/PurchaseOrderEdit/${insertedDataId}`);
-          }, 300);
+            navigate(`/PurchaseOrderEdit/${insertedDataId}?tab=1`);
+          }, 500);
         })
         .catch(() => {
           message('Unable to edit record.', 'error');
@@ -53,6 +77,18 @@ const PurchaseOrderDetails = () => {
       message('Please fill all required fields.', 'warning');
     }
   };
+
+  const generateCode = () => {
+    api
+      .post('/commonApi/getCodeValue', { type: 'purchaseOrder' })
+      .then((res) => {
+        insertPurchaseOrder(res.data.data);
+      })
+      .catch(() => {
+        insertPurchaseOrder('');
+      });
+  };
+
   useEffect(() => {
     editPurchaseById();
   }, [id]);
@@ -96,14 +132,14 @@ const PurchaseOrderDetails = () => {
                         type="button"
                         className="btn mr-2 shadow-none"
                         onClick={() => {
-                          insertPurchaseOrder();
+                          generateCode();
                         }}
                       >
                         Save & Continue
                       </Button>
                       <Button
                         onClick={() => {
-                          navigate('/PurchaseOrderEdit');
+                          navigate('/PurchaseOrder');
                         }}
                         type="button"
                         className="btn btn-dark shadow-none"

@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, Button, Form, FormGroup } from 'reactstrap';
 import PropTypes from 'prop-types';
 import ComponentCardV2 from '../ComponentCardV2';
-import PdfPurchaseOrder from '../PDF/PdfPurchaseOrder';
+// import PdfPurchaseOrder from '../PDF/PdfPurchaseOrder';
 import PdfPurchaseOrderPrice from '../PDF/PdfPurchaseOrderPrice';
 
 function PurchaseOrderButtons({
@@ -11,7 +11,7 @@ function PurchaseOrderButtons({
   editPurchaseData,
   navigate,
   purchaseDetails,
-  products,
+  //products,
   product,
 }) {
   PurchaseOrderButtons.propTypes = {
@@ -20,7 +20,7 @@ function PurchaseOrderButtons({
     editPurchaseData: PropTypes.any,
     navigate: PropTypes.any,
     purchaseDetails: PropTypes.any,
-    products: PropTypes.array,
+   // products: PropTypes.array,
     product: PropTypes.array,
   };
   return (
@@ -29,17 +29,14 @@ function PurchaseOrderButtons({
         <FormGroup>
           <ComponentCardV2>
             <Row>
-              <Col>
+              {/* <Col>
                 <PdfPurchaseOrder
                   products={products}
                   purchaseDetails={purchaseDetails}
                 ></PdfPurchaseOrder>
-              </Col>
+              </Col> */}
               <Col>
-                <PdfPurchaseOrderPrice
-                  product={product}
-                  purchaseDetails={purchaseDetails}
-                ></PdfPurchaseOrderPrice>
+                <PdfPurchaseOrderPrice product={product} purchaseDetails={purchaseDetails}></PdfPurchaseOrderPrice>
               </Col>
               <Col>
                 <Button
@@ -47,9 +44,7 @@ function PurchaseOrderButtons({
                   color="primary"
                   onClick={() => {
                     editPurchaseData();
-                    setTimeout(() => {
-                      navigate('/PurchaseOrder');
-                    }, 1100);
+                    navigate('/PurchaseOrder');
                   }}
                 >
                   Save
@@ -62,6 +57,8 @@ function PurchaseOrderButtons({
                   onClick={() => {
                     editPurchaseData();
                     applyChanges();
+                    
+                    console.log('cancel process');
                   }}
                 >
                   Apply

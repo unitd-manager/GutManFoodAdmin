@@ -11,10 +11,11 @@ import {
   Button,
   Table,
 } from 'reactstrap';
+import {  useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import api from '../../constants/api';
-import message from '../Message';
+//import message from '../Message';
 
 function ViewHistoryModal({ viewHistoryModal, setViewHistoryModal, productId, supplierId }) {
   ViewHistoryModal.propTypes = {
@@ -23,7 +24,7 @@ function ViewHistoryModal({ viewHistoryModal, setViewHistoryModal, productId, su
     productId: PropTypes.any,
     supplierId: PropTypes.any,
   };
-
+  const { id } = useParams();
   const [fromSame, setFromSame] = useState([]);
   const [fromOthers, setFromOthers] = useState([]);
 
@@ -33,12 +34,13 @@ function ViewHistoryModal({ viewHistoryModal, setViewHistoryModal, productId, su
       .post('/purchaseorder/getProductsfromSupplier', {
         product_id: productId,
         supplier_id: supplierId,
+        purchase_order_id: id,
       })
       .then((res) => {
         setFromSame(res.data.data);
       })
       .catch(() => {
-        message('Product history Data Not Found', 'info');
+        //message('Product history Data Not Found', 'info');
       });
   };
   //get history from other supplier
@@ -47,12 +49,13 @@ function ViewHistoryModal({ viewHistoryModal, setViewHistoryModal, productId, su
       .post('/purchaseorder/getProductsfromOtherSuppliers', {
         product_id: productId,
         supplier_id: supplierId,
+        purchase_order_id: id,
       })
       .then((res) => {
         setFromOthers(res.data.data);
       })
       .catch(() => {
-        message('Product history Data Not Found', 'info');
+        //message('Product history Data Not Found', 'info');
       });
   };
   const supplierColumn = [
@@ -103,7 +106,7 @@ function ViewHistoryModal({ viewHistoryModal, setViewHistoryModal, productId, su
                                 <td>{element.supplier_name}</td>
                                 <td>{moment(element.po_date).format('YYYY-MM-DD')}</td>
                                 <td>{element.cost_price}</td>
-                                <td>{element.qty}</td>
+                                <td>{element.po_QTY}</td>
                               </tr>
                             );
                           })}
@@ -131,7 +134,7 @@ function ViewHistoryModal({ viewHistoryModal, setViewHistoryModal, productId, su
                                 <td>{element.supplier_name}</td>
                                 <td>{moment(element.po_date).format('YYYY-MM-DD')}</td>
                                 <td>{element.cost_price}</td>
-                                <td>{element.qty}</td>
+                                <td>{element.po_QTY}</td>
                               </tr>
                             );
                           })}

@@ -13,6 +13,7 @@ import '../form-editor/editor.scss';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import ComponentCard from '../../components/ComponentCard';
 import ComponentCardV2 from '../../components/ComponentCardV2';
+import creationdatetime from '../../constants/creationdatetime';
 import message from '../../components/Message';
 import api from '../../constants/api';
 import PurchaseOrderLinked from '../../components/SupplierModal/Purchaseorderlinked';
@@ -33,8 +34,12 @@ const SupplierEdit = () => {
   const navigate = useNavigate();
   const applyChanges = () => {};
 
+  const handleInputs = (e) => {
+    setSupplier({ ...supplier, [e.target.name]: e.target.value });
+  };
   // Get Supplier By Id
   const editSupplierById = () => {
+
     api
       .post('/supplier/get-SupplierById', { supplier_id: id })
       .then((res) => {
@@ -45,12 +50,12 @@ const SupplierEdit = () => {
       });
   };
 
-  const handleInputs = (e) => {
-    setSupplier({ ...supplier, [e.target.name]: e.target.value });
-  };
+ 
   //Logic for edit data in db
   const editSupplierData = () => {
-    if (supplier.company_name !== '')
+    if (supplier.company_name !== '') {
+      supplier.modification_date = creationdatetime;
+
       api
         .post('/supplier/edit-Supplier', supplier)
         .then(() => {
@@ -59,7 +64,7 @@ const SupplierEdit = () => {
         .catch(() => {
           message('Unable to edit record.', 'error');
         });
-    else {
+        }  else {
       message('Please fill all required fields.', 'error');
     }
   };
@@ -79,19 +84,10 @@ const SupplierEdit = () => {
     editSupplierById();
   }, [id]);
   // Get purchaseOrder By Id
-  const getpurchaseOrder = () => {
-    api
-      .post('/supplier/getPurchaseOrderLinkedss', { supplier_id: id })
-      .then((res) => {
-        setPurchaseOrder(res.data.data);
-      })
-      .catch(() => {
-        message('Supplier not found', 'info');
-      });
-  };
+
   const suppliereditdetails = () => {
     api
-      .get('/geocountry/getCountry')
+      .get('/supplier/getCountry')
       .then((res) => {
         setAllCountries(res.data.data);
       })
@@ -111,6 +107,16 @@ const SupplierEdit = () => {
       });
   };
   useEffect(() => {
+    const getpurchaseOrder = () => {
+      api
+        .post('/supplier/getPurchaseOrderLinkedss', { supplier_id: id })
+        .then((res) => {
+          setPurchaseOrder(res.data.data);
+        })
+        .catch(() => {
+          message('Supplier not found', 'info');
+        });
+    };
     getpurchaseOrder();
     suppliereditdetails();
     getSupplierStatus();
@@ -130,9 +136,7 @@ const SupplierEdit = () => {
                   color="primary"
                   onClick={() => {
                     editSupplierData();
-                    setTimeout(() => {
-                      navigate('/Supplier');
-                    }, 1100);
+                    navigate('/Supplier');
                   }}
                 >
                   Save
@@ -144,7 +148,9 @@ const SupplierEdit = () => {
                   className="shadow-none"
                   onClick={() => {
                     editSupplierData();
-                   
+                    setTimeout(() => {
+                      applyChanges();
+                    }, 800);
                   }}
                 >
                   Apply
@@ -156,6 +162,8 @@ const SupplierEdit = () => {
                   className="shadow-none"
                   onClick={() => {
                     applyChanges();
+                    navigate('/Supplier');
+
                   }}
                 >
                   Back to List
@@ -165,6 +173,8 @@ const SupplierEdit = () => {
           </ComponentCardV2>
         </FormGroup>
       </Form>
+      <ComponentCard title="Supplier Details" creationModificationDate={supplier}>
+
       <SupplierDetails
         handleInputs={handleInputs}
         supplier={supplier}
@@ -173,15 +183,13 @@ const SupplierEdit = () => {
         status={status}
         setEditPurchaseOrderLinked={setEditPurchaseOrderLinked}
       ></SupplierDetails>
-
+  </ComponentCard>
       <PurchaseOrderLinked
         editPurchaseOrderLinked={editPurchaseOrderLinked}
         setEditPurchaseOrderLinked={setEditPurchaseOrderLinked}
       ></PurchaseOrderLinked>
-      <ComponentCard>
-        <ToastContainer></ToastContainer>
-        <SupplierTable purchaseOrder={purchaseOrder}></SupplierTable>
-      </ComponentCard>
+      <ToastContainer></ToastContainer>
+      <SupplierTable purchaseOrder={purchaseOrder}></SupplierTable>
     </>
   );
 };

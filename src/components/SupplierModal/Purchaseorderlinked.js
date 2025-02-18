@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Card,
   CardBody,
   Row,
   Col,
@@ -86,13 +85,11 @@ const PurchaseOrderLinked = ({ editPurchaseOrderLinked, setEditPurchaseOrderLink
 
   //Logic for deducting receipt amount
   const finalCalculation = (receipt) => {
-    // console.log(receipt);
     let leftamount = totalAmount;
     
     for (let j = 0; j < selectedSupplier.length; j++) {
       
       if (selectedSupplier[j].remainingAmount <= leftamount) {
-        console.log(parseFloat(leftamount) - selectedSupplier[j].remainingAmount)
         leftamount = parseFloat(leftamount) - selectedSupplier[j].remainingAmount
        selectedSupplier[j].paid = true;
         editPurchaseStatus(selectedSupplier[j].purchase_order_id, 'Paid');
@@ -152,7 +149,6 @@ const PurchaseOrderLinked = ({ editPurchaseOrderLinked, setEditPurchaseOrderLink
 
     if (createSupplier.amount &&
       createSupplier.mode_of_payment && (selectedSupplier.length>0)) {
-        console.log('select',selectedSupplier)
       api
       .post('/supplier/insert-SupplierReceipt', createSupplier)
       .then((res) => {
@@ -161,7 +157,6 @@ const PurchaseOrderLinked = ({ editPurchaseOrderLinked, setEditPurchaseOrderLink
         finalCalculation(res.data.data.insertId);
       })
       .catch(() => {
-        // console.log('Network connection error.');
       });
     }
   };
@@ -181,15 +176,8 @@ const PurchaseOrderLinked = ({ editPurchaseOrderLinked, setEditPurchaseOrderLink
     } else {
       invoices = removeObjectWithId(selectedSupplier, invObj.po_code);
       setSelectedSupplier(invoices);
-      // console.log(invoices)
     }
-    
   };
-  // const insertInvoices = () => {
-  //   invoices.forEach((obj) => {
-  //     insertReceiptHistory(obj);
-  //   });
-  // };
 
   //Getting receipt data by order id
   const getSupplierReceipt = () => {
@@ -242,7 +230,6 @@ const PurchaseOrderLinked = ({ editPurchaseOrderLinked, setEditPurchaseOrderLink
         <ModalBody>
           <Row>
             <Col md="12">
-              <Card>
                 <CardBody>
                   <Form>
                     {SupplierReceipt &&
@@ -314,7 +301,6 @@ const PurchaseOrderLinked = ({ editPurchaseOrderLinked, setEditPurchaseOrderLink
                     </Row>
                   </Form>
                 </CardBody>
-              </Card>
             </Col>
           </Row>
         </ModalBody>
@@ -325,7 +311,11 @@ const PurchaseOrderLinked = ({ editPurchaseOrderLinked, setEditPurchaseOrderLink
             onClick={() => {
               insertReceipt();
               setEditPurchaseOrderLinked(false);
-
+              setTimeout(() => {
+                console.log('Data saved successfully.');
+                // Reload the page after saving data
+                window.location.reload();
+              }, 2000);
             }}
           >
             {' '}

@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import ComponentCard from '../ComponentCard';
-import { pocolumns } from '../../data/Tender/InventoryData';
+import { pocolumns, plcolumns } from '../../data/Tender/InventoryData';
 
-function InventoryEditTables({ tabPurchaseOrdersLinked }) {
+function InventoryEditTables({ tabPurchaseOrdersLinked, projectsLinked }) {
   InventoryEditTables.propTypes = {
     tabPurchaseOrdersLinked: PropTypes.array,
-   
+    projectsLinked: PropTypes.array,
   };
 
   return (
@@ -51,7 +51,32 @@ function InventoryEditTables({ tabPurchaseOrdersLinked }) {
         </Table>
       </ComponentCard>
 
-     
+      <ComponentCard title="Projects Linked">
+        <Table id="examplepl" className="display border border-secondary rounded">
+          <thead>
+            <tr>
+              {plcolumns.map((cell) => {
+                return <td key={cell.name}>{cell.name}</td>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {projectsLinked &&
+              projectsLinked.map((element) => {
+                return (
+                  <tr key={element.project_id}>
+                    <td>{moment(element.material_used_date).format('YYYY-MM-DD')}</td>
+                    <td>
+                      <Link to={`/projectEdit/${element.project_id}`}>{element.title}</Link>
+                    </td>
+                    <td>{element.company_name}</td>
+                    <td>{element.quantity}</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+      </ComponentCard>
     </div>
   );
 }

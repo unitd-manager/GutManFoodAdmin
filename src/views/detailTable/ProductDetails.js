@@ -81,7 +81,7 @@ const ProductDetails = () => {
   //Auto generation code
   const generateCode = () => {
     api
-      .post('/commonApi/getCodeValues', { type: 'product' })
+      .post('/commonApi/getCodeValue', { type: 'product' })
       .then((res) => {
         const ProductCode = res.data.data;
        console.log('ProductCode',ProductCode)

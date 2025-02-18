@@ -11,6 +11,8 @@ function AttachmentTab({
   dataForAttachment,
   setAttachmentModal,
   id,
+  update,
+  setUpdate,
   attachmentModal,
   pictureData,
   attachmentData,
@@ -22,10 +24,13 @@ function AttachmentTab({
     id: PropTypes.any,
     attachmentModal: PropTypes.bool,
     pictureData: PropTypes.any,
+    update: PropTypes.any,
+    setUpdate: PropTypes.any,
     attachmentData: PropTypes.any,
   };
   const [roomName, setRoomName] = useState('');
   const [fileTypes, setFileTypes] = useState('');
+  const [pictureAttachmentModal, setPictureAttachmentModal] = useState(false);
   return (
     <div>
       <Row>
@@ -34,12 +39,12 @@ function AttachmentTab({
             <FormGroup>
               <ComponentCard title="Picture">
                 <Row>
-                  <Col xs="12" md="6" className="mb-3">
+                  <Col xs="12" md="3" className="mb-3">
                     <Button
                       className="shadow-none"
                       color="primary"
                       onClick={() => {
-                        setRoomName('PurchaseorderPic');
+                        setRoomName('Picture');
                         setFileTypes(['JPG', 'PNG', 'GIF']);
                         dataForPicture();
                         setAttachmentModal(true);
@@ -51,19 +56,23 @@ function AttachmentTab({
                 </Row>
                 <AttachmentModalV2
                   moduleId={id}
-                  attachmentModal={attachmentModal}
-                  setAttachmentModal={setAttachmentModal}
+                  attachmentModal={pictureAttachmentModal}
+                  setAttachmentModal={setPictureAttachmentModal}
                   roomName={roomName}
                   fileTypes={fileTypes}
-                  altTagData="Product Data"
-                  desc="Product Data"
+                  altTagData="PurchaseOrder Data"
+                  desc="PurchaseOrder Data"
                   recordType="Picture"
                   mediaType={pictureData.modelType}
+                  update={update}
+                  setUpdate={setUpdate}
                 />
                 <ViewFileComponentV2
                   moduleId={id}
-                  roomName="PurchaseorderPic"
+                  roomName="Picture"
                   recordType="Picture"
+                  update={update}
+                  setUpdate={setUpdate}
                 />
               </ComponentCard>
             </FormGroup>
@@ -74,13 +83,13 @@ function AttachmentTab({
             <FormGroup>
               <ComponentCard title="Attachments">
                 <Row>
-                  <Col xs="12" md="6" className="mb-3">
+                  <Col xs="12" md="3" className="mb-3">
                     <Button
                       className="shadow-none"
                       color="primary"
                       onClick={() => {
-                        setRoomName('PurchaseorderAttachment');
-                        setFileTypes(['JPG', 'PNG', 'GIF', 'PDF']);
+                        setRoomName('PurchaseOrder');
+                        setFileTypes(['JPG', 'JPEG', 'PNG', 'GIF', 'PDF']);
                         dataForAttachment();
                         setAttachmentModal(true);
                       }}
@@ -95,15 +104,19 @@ function AttachmentTab({
                   setAttachmentModal={setAttachmentModal}
                   roomName={roomName}
                   fileTypes={fileTypes}
-                  altTagData="ProductRelated Data"
-                  desc="ProductRelated Data"
+                  altTagData="PurchaseOrderRelated Data"
+                  desc="PurchaseOrderRelated Data"
                   recordType="RelatedPicture"
                   mediaType={attachmentData.modelType}
+                  update={update}
+                  setUpdate={setUpdate}
                 />
                 <ViewFileComponentV2
                   moduleId={id}
-                  roomName="PurchaseorderAttachment"
+                  roomName="PurchaseOrder"
                   recordType="RelatedPicture"
+                  update={update}
+                  setUpdate={setUpdate}
                 />
               </ComponentCard>
             </FormGroup>
