@@ -40,7 +40,7 @@ const ApiButton = ({ editData, navigate, applyChanges, backToList, module }) => 
                 <Button
                   onClick={() => {
                     editData();
-                    navigate('/Product');
+                    navigate('/Inventory');
                   }}
                   color="primary"
                 >
@@ -78,7 +78,7 @@ const ApiButton = ({ editData, navigate, applyChanges, backToList, module }) => 
                 Back To List
               </Button>
             </Col>
-            <Col className="d-flex" xl={3} sm={12}>
+            {/* <Col className="d-flex" xl={3} sm={12}>
               {' '}
               <HasAccess
                 roles={null}
@@ -89,7 +89,7 @@ const ApiButton = ({ editData, navigate, applyChanges, backToList, module }) => 
                   Delete
                 </Button>
               </HasAccess>
-            </Col>
+            </Col> */}
           </Row>
         </div>
       </Card>
