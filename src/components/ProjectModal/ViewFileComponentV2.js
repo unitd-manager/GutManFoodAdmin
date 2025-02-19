@@ -70,7 +70,7 @@ function ViewFileComponentV2({ moduleId, roomName }) {
                 <tr key={res.media_id}>
                   <td style={tableStyle}>
                       <a
-                        href={`https://foodecom.unitdtechnologies.com/storage/uploads/${res.name}`}
+                        href={`https://gutmanfoodsadmin.unitdtechnologies.com/storage/uploads/${res.name}`}
                         target="_blank"
                         rel="noreferrer"
                       >

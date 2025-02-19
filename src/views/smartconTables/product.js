@@ -15,7 +15,7 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import CommonTable from '../../components/CommonTable';
 import Publish from '../../components/Publish';
 
-
+ 
 const SectionDetails = () => {
   //Const Variables
   const [section, setSection] = useState(null);

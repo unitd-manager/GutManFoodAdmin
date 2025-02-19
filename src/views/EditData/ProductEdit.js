@@ -183,8 +183,8 @@ const ProductUpdate = () => {
                   <Input
                     type="text"
                     onChange={handleInputs}
-                    value={productDetails && productDetails.item_code}
-                    name="item_code"
+                    value={productDetails && productDetails.product_code}
+                    name="product_code"
                     disabled
                   />
                 </FormGroup>

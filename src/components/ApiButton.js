@@ -40,7 +40,7 @@ const ApiButton = ({ editData, navigate, applyChanges, backToList, module }) => 
                 <Button
                   onClick={() => {
                     editData();
-                    navigate('/Leave');
+                    navigate('/Product');
                   }}
                   color="primary"
                 >

@@ -65,7 +65,7 @@ const ProductDetails = () => {
             });
   
           setTimeout(() => {
-            navigate(`/ProductEdit/${insertedDataId}?tab=1`);
+            navigate(`/ProductEdit/${insertedDataId}`);
           }, 300);
         })
         .catch((productError) => {
