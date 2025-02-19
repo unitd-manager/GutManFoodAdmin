@@ -30,7 +30,9 @@ const DeliveryModalTable = ({ delivery, handleInputs, }) => {
                         <Label>PO Date</Label>
                         <Input
                           type="date"
-                          value={delivery && delivery.purchase_order_date}
+                          value={moment(delivery && delivery.purchase_order_date).format(
+                            'YYYY-MM-DD',
+                          )}
                           onChange={handleInputs}
                           name="purchase_order_date"
                           disabled
