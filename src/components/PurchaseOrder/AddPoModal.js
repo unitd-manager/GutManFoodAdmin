@@ -218,8 +218,9 @@ const insertProduct = (ProductCode, ItemCode) => {
       .then((res) => {
         const insertedDataId = res.data.data.insertId;
         message('Product inserted successfully.', 'success');
+      
         api
-          .post('/product/getCodeValue', { type: 'InventoryCode' })
+          .post('/commonApi/getCodeValues', { type: 'inventory' })
           .then((res1) => {
             const InventoryCode = res1.data.data;
             message('inventory created successfully.', 'success');
@@ -306,9 +307,9 @@ const insertProduct = (ProductCode, ItemCode) => {
       })
       .then(() => {
         message('Product Added!', 'success');
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 300);
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       })
       .catch(() => {
         message('Unable to add Product!', 'error');

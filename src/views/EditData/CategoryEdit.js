@@ -95,6 +95,9 @@ const CategoryEdit = () => {
         .post('/category/editCategory', categoryDetails)
         .then(() => {
           message('Record editted successfully', 'success');
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
         })
         .catch(() => {
           message('Unable to edit record.', 'error');

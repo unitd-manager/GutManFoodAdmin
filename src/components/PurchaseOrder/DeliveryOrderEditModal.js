@@ -60,7 +60,9 @@ function DeliveryOrderEditModal({
       .post('/purchaseorder/editDeliveryOrder', delivery)
       .then(() => {
         message('Record edited successfully.', 'success');
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       })
       .catch(() => {
         message('Network connection error.');

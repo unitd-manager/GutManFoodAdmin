@@ -101,6 +101,9 @@ const ProductUpdate = () => {
         .then(() => {
           getProductById();
           message('Record edited successfully', 'success');
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
         })
 
         .catch(() => {

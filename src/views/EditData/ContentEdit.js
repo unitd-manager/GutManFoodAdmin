@@ -85,6 +85,9 @@ const ContentUpdate = () => {
         .post('/content/editContent', contentDetails)
         .then(() => {
           message('Record edited successfully', 'success');
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
         })
         .catch(() => {
           message('Unable to edit record.', 'error');

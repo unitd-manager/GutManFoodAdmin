@@ -126,11 +126,15 @@ const PurchaseOrderEdit = () => {
                 .post('/inventory/editInventoryStock', elem)
                 .then(() => {
                   message('Quantity updated in inventory successfully.', 'success');
+                  
                 })
                 .catch(() => {
                   message('unable to update quantity in inventory.', 'danger');
                 });
               message('Quantity added successfully.', 'success');
+              setTimeout(() => {
+                window.location.reload();
+              }, 300);
             })
             .catch(() => {
               message('unable to add quantity.', 'danger');
@@ -156,6 +160,9 @@ const PurchaseOrderEdit = () => {
             .post('/purchaseorder/insertDeliveryOrderHistory', elem)
             .then(() => {
               message('Inserted successfully.', 'success');
+              setTimeout(() => {
+                window.location.reload();
+              }, 300);
             })
             .catch(() => {
               message('unable to deliver.', 'danger');
@@ -185,6 +192,9 @@ const PurchaseOrderEdit = () => {
       .post('/purchaseorder/editTabPurchaseOrder', purchaseDetails)
       .then(() => {
         message('Record editted successfully', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       })
       .catch(() => {
         message('Unable to edit record.', 'error');
@@ -197,6 +207,9 @@ const PurchaseOrderEdit = () => {
       .post('/purchaseorder/editTabPurchaseOrderLineItem', product)
       .then(() => {
         message('product edited successfully.', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
       })
       .catch(() => {
         message('unable to edit product.', 'danger');

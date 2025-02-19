@@ -94,6 +94,9 @@ const SubCategoryEdit = () => {
         .then(() => {
           message('Record editted successfully', 'success');
           editSubCategoryById();
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
         })
         .catch(() => {
           message('Unable to edit record.', 'error');
