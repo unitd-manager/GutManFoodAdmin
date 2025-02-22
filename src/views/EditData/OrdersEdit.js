@@ -8,6 +8,9 @@ import ComponentCard from '../../components/ComponentCard';
 import message from '../../components/Message';
 import api from '../../constants/api';
 import CustomerDetail from '../../components/Finance/CustomerDetail';
+import FinanceInvoiceModal from '../../components/FinanceTable/FinanceInvoiceModal';
+import InvoiceModal from '../../components/FinanceTable/InvoiceModal';
+
 import FinanceButton from '../../components/Finance/FinanceButton';
 import FinanceDeliveryAddress from '../../components/Finance/FinanceDeliveryAddress';
 import FinanceMainDetails from '../../components/Finance/FinanceMainDetails';
@@ -79,6 +82,58 @@ const FinanceEdit = () => {
     getFinancesById();
     getOrderItemsById();
   }, [id]);
+  const [invoiceDatas, setInvoiceDatas] = useState({});
+  const [editModal, setEditModal] = useState(false);
+  const [editInvoiceModal, setEditInvoiceModal] = useState(false);
+
+  const [createInvoice, setCreateInvoice] = useState(null);
+  const [cancelInvoice, setCancelInvoice] = useState(null);
+  const getInvoiceById = () => {
+    api
+      .post('/invoice/getInvoiceById', { order_id: id })
+      .then((res) => {
+        setCreateInvoice(res.data.data);
+      })
+      .catch(() => {
+        message('Cannot get Invoice Data', 'error');
+      });
+  };
+
+
+  const invoiceCancel = (obj) => {
+    obj.status = 'cancelled';
+    api
+      .post('/Finance/editInvoicePortalDisplay', obj)
+      .then(() => {
+        message('Record editted successfully', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 600);
+      })
+      .catch(() => {
+        message('Unable to edit record.', 'error');
+      });
+  };
+  //get Invoice Cancel
+  const getInvoiceCancel = () => {
+    api
+      .post('/invoice/getInvoiceCancel', { order_id: id })
+      .then((res) => {
+        setCancelInvoice(res.data.data);
+      })
+      .catch(() => {
+        message('Cannot get Invoice Data', 'error');
+      });
+  };
+
+
+  useEffect(() => {
+    getInvoiceById();
+ 
+    getInvoiceCancel();
+
+  }, [id]);
+
   return (
     <>
       <BreadCrumbs heading={financeDetails && financeDetails.order_id} />
@@ -130,6 +185,16 @@ const FinanceEdit = () => {
                 Product Details
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink
+                className={activeTab === '4' ? 'active' : ''}
+                onClick={() => {
+                  toggle('4');
+                }}
+              >
+                Invoice
+              </NavLink>
+            </NavItem>
           </Nav>
         </Row>
         {/* Delivery address Form */}
@@ -153,6 +218,24 @@ const FinanceEdit = () => {
             <OrderProductDetails historyDetails={historyDetails}></OrderProductDetails>
           </ComponentCard>
         </TabPane>
+        <TabPane tabId="4">
+            <FinanceInvoiceModal
+              createInvoice={createInvoice}
+              cancelInvoice={cancelInvoice}
+              invoiceCancel={invoiceCancel}
+              setEditModal={setEditModal}
+              setEditInvoiceModal={setEditInvoiceModal}
+              setInvoiceDatas={setInvoiceDatas}
+              financeDetails={financeDetails}
+            ></FinanceInvoiceModal>
+              <InvoiceModal
+              editModal={editModal}
+              setEditModal={setEditModal}
+              editInvoiceModal={editInvoiceModal}
+              setInvoiceDatas={setInvoiceDatas}
+              invoiceDatas={invoiceDatas}
+            />
+          </TabPane>
       </TabContent>
     </>
   );

@@ -20,7 +20,6 @@ export default function OrderProductDetails({
      { name: 'Product Name' },
     { name: 'Quantity' },
     { name: 'Cost Price' },
-    { name: 'Delivery Date' },
     ];
 
   return (
@@ -46,7 +45,6 @@ export default function OrderProductDetails({
                         <td>{element.item_title}</td>
                         <td>{element.qty}</td>
                         <td>{element.unit_price}</td>
-                        <td>{element.delivery_date}</td>
                         <td>
                        </td>
                      
