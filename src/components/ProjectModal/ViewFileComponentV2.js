@@ -74,7 +74,13 @@ function ViewFileComponentV2({ moduleId, roomName }) {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        {res.name}
+                        <img
+  src={`https://gutmanfoodsadmin.unitdtechnologies.com/storage/uploads/${res.name}`} 
+  width={200}
+  height={200}
+  alt={`${res.name}`}
+  
+/> {res.name}
                       </a>
                   </td>
                   <td style={tableStyle}>
