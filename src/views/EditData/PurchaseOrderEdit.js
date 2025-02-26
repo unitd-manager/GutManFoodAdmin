@@ -106,45 +106,58 @@ const PurchaseOrderEdit = () => {
       });
   };
 
-  const handlePOInputs = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
+
+
+   //checked objects
+   const getCheckedPoProducts = (checkboxVal, index, Obj) => {
+    if (checkboxVal.target.checked === true) {
+      setSelectedPoProducts([...selectedPoProducts, Obj]);
+    }
+    if (checkboxVal.target.checked !== true) {
+      const copyselectedPoProducts = [...selectedPoProducts];
+      copyselectedPoProducts.splice(index, 1);
+      setSelectedPoProducts(copyselectedPoProducts);
+    }
   };
 
-  //Add to stocks
   const addQtytoStocks = () => {
-    if (selectedPoProducts) {
+    if (selectedPoProducts && selectedPoProducts.length > 0) { 
       selectedPoProducts.forEach((elem) => {
-        if (elem.status !== 'Closed') {
-          elem.status = 'Closed';
-          elem.qty_updated = elem.qty_delivered;
-          elem.qty_in_stock += parseFloat(elem.qty_delivered);
-          api.post('/product/edit-ProductQty', elem);
-          api
-            .post('/purchaseorder/editTabPurchaseOrderLineItem', elem)
-            .then(() => {
-              api
-                .post('/inventory/editInventoryStock', elem)
-                .then(() => {
-                  message('Quantity updated in inventory successfully.', 'success');
-                  
-                })
-                .catch(() => {
-                  message('unable to update quantity in inventory.', 'danger');
-                });
-              message('Quantity added successfully.', 'success');
-              setTimeout(() => {
-                window.location.reload();
-              }, 300);
-            })
-            .catch(() => {
-              message('unable to add quantity.', 'danger');
-            });
+        if (elem.status !== 'closed') {
+          // Ensure qty_delivered is a number
+          const deliveredQty = parseFloat(elem.qty_delivered) || 0;
+
+          // Update only when qty_delivered is entered
+         
+            elem.qty_updated = (elem.qty_updated || 0) + deliveredQty;
+            elem.qty_in_stock += deliveredQty;
+
+            // Update qty_balance
+            elem.qty_balance = elem.qty - elem.qty_updated;
+
+            // Update status
+            if (elem.qty_balance <= 0) {
+              elem.status = 'closed';
+            } else {
+              elem.status = 'partially delivered';
+            }
+
+            api
+              .post('/inventory/editInventoryStock', elem)
+              .then(() => {
+                message('Quantity added successfully.', 'success');
+              
+              })
+              .catch(() => {
+                message('Unable to add quantity.', 'danger');
+              });
+        
         } else {
-          message('This product is already added', 'danger');
+          message('This product is already added.', 'danger');
         }
       });
     } else {
-      alert('Please select atleast one product');
+      Swal.fire('Please select at least one product!');
     }
   };
 
@@ -201,20 +214,29 @@ const PurchaseOrderEdit = () => {
       });
   };
 
+  const handlePOInputs = (e) => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
+  };
+
   //Edit poproductdata
   const editPoProductData = () => {
+    const updatedProduct = {
+        ...product,
+        qty_updated: product.qty - product.qty_delivered
+    };
+
     api
-      .post('/purchaseorder/editTabPurchaseOrderLineItem', product)
+      .post('/purchaseorder/editTabPurchaseOrderLineItem', updatedProduct)
       .then(() => {
-        message('product edited successfully.', 'success');
-        setTimeout(() => {
-          window.location.reload();
-        }, 300);
+        message('Product edited successfully.', 'success');
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 300);
       })
       .catch(() => {
-        message('unable to edit product.', 'danger');
+        message('Unable to edit product.', 'danger');
       });
-  };
+};
 
   const deletePoProduct = (poProductId) => {
     Swal.fire({
@@ -242,17 +264,7 @@ const PurchaseOrderEdit = () => {
     });
   };
 
-  //checked objects
-  const getCheckedPoProducts = (checkboxVal, index, Obj) => {
-    if (checkboxVal.target.checked === true) {
-      setSelectedPoProducts([...selectedPoProducts, Obj]);
-    }
-    if (checkboxVal.target.checked !== true) {
-      const copyselectedPoProducts = [...selectedPoProducts];
-      copyselectedPoProducts.splice(index, 1);
-      setSelectedPoProducts(copyselectedPoProducts);
-    }
-  };
+ 
   //checked Dos
   const getCheckedDeliverProducts = (checkboxVal, index, Obj) => {
     if (checkboxVal.target.checked === true) {

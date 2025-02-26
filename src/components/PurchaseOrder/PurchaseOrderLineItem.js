@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState }  from 'react';
 import {
   CardBody,
   Row,
@@ -16,20 +16,43 @@ import {
 import PropTypes from 'prop-types';
 import * as $ from 'jquery';
 
+import api from '../../constants/api';
+
+
 const PurchaseOrderlineItemEdit = ({
-  product,
   editModal,
-  editPoProductData,
   setEditModal,
-  handlePOInputs,
 }) => {
   PurchaseOrderlineItemEdit.propTypes = {
-    product: PropTypes.object,
-    editPoProductData: PropTypes.func,
+  
     editModal: PropTypes.bool,
     setEditModal: PropTypes.func,
-    handlePOInputs: PropTypes.func,
   };
+  const [product, setProduct] = useState();
+
+
+  const handlePOInputs = (e) => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
+  };
+
+  //Edit poproductdata
+  const editPoProductData = () => {
+    const updatedProduct = {
+        ...product,
+        qty_updated: product.qty - product.qty_delivered
+    };
+
+    api
+      .post('/purchaseorder/editTabPurchaseOrderLineItem', updatedProduct)
+      .then(() => {
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 300);
+      })
+      .catch(() => {
+        console.log('error');
+      });
+};
 
   const getAllValues = () => {
     const result = [];
@@ -66,6 +89,11 @@ const PurchaseOrderlineItemEdit = ({
       result.push(allValues);
     });
   };
+
+
+  
+
+
 
   return (
     <>
