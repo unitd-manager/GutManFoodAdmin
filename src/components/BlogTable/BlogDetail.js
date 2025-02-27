@@ -3,11 +3,11 @@ import { Row, Col, FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 import ComponentCard from '../ComponentCard';
 
-export default function BlogDetail({ blog, handleInputs,category }) {
+export default function BlogDetail({ blog, handleInputs }) {
   BlogDetail.propTypes = {
     blog: PropTypes.object,
     handleInputs: PropTypes.func,
-    category: PropTypes.array,
+    // category: PropTypes.array,
   };
   return (
     <>
@@ -25,7 +25,7 @@ export default function BlogDetail({ blog, handleInputs,category }) {
                         />
                       </FormGroup>
                     </Col>
-                    <Col md="3">
+                    {/* <Col md="3">
                       <FormGroup>
                         <Label>Category </Label>
                         <Input
@@ -45,15 +45,15 @@ export default function BlogDetail({ blog, handleInputs,category }) {
                             })}
                         </Input>
                       </FormGroup>
-                    </Col>
+                    </Col> */}
                     <Col md="3">
                       <FormGroup>
-                        <Label>author</Label>
+                        <Label>Tags</Label>
                         <Input
                           type="text"
                           onChange={handleInputs}
-                          value={blog && blog.author}
-                          name="author"
+                          value={blog && blog.tags}
+                          name="tags"
                         />
                       </FormGroup>
                     </Col>
