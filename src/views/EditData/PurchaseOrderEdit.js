@@ -124,34 +124,22 @@ const PurchaseOrderEdit = () => {
     if (selectedPoProducts && selectedPoProducts.length > 0) { 
       selectedPoProducts.forEach((elem) => {
         if (elem.status !== 'closed') {
-          // Ensure qty_delivered is a number
-          const deliveredQty = parseFloat(elem.qty_delivered) || 0;
-
-          // Update only when qty_delivered is entered
-         
-            elem.qty_updated = (elem.qty_updated || 0) + deliveredQty;
-            elem.qty_in_stock += deliveredQty;
-
-            // Update qty_balance
-            elem.qty_balance = elem.qty - elem.qty_updated;
-
-            // Update status
-            if (elem.qty_balance <= 0) {
-              elem.status = 'closed';
-            } else {
-              elem.status = 'partially delivered';
-            }
-
-            api
-              .post('/inventory/editInventoryStock', elem)
-              .then(() => {
-                message('Quantity added successfully.', 'success');
-              
-              })
-              .catch(() => {
-                message('Unable to add quantity.', 'danger');
-              });
         
+  
+          if (elem.qty_delivered === elem.qty) {  
+            elem.status = 'closed';  
+          } else {
+            elem.status = 'partially delivered';
+          }
+  
+          api
+            .post('/inventory/editInventoryStock', elem)
+            .then(() => {
+              message('Quantity added successfully.', 'success');
+            })
+            .catch(() => {
+              message('Unable to add quantity.', 'danger');
+            });
         } else {
           message('This product is already added.', 'danger');
         }
@@ -160,7 +148,7 @@ const PurchaseOrderEdit = () => {
       Swal.fire('Please select at least one product!');
     }
   };
-
+  
   //Delivery order
   const deliverOrder = () => {
     if (selectedPoDelivers) {
@@ -222,16 +210,14 @@ const PurchaseOrderEdit = () => {
   const editPoProductData = () => {
     const updatedProduct = {
         ...product,
-        qty_updated: product.qty - product.qty_delivered
+        qty_delivered: product.qty_requested
     };
 
     api
       .post('/purchaseorder/editTabPurchaseOrderLineItem', updatedProduct)
       .then(() => {
         message('Product edited successfully.', 'success');
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 300);
+     
       })
       .catch(() => {
         message('Unable to edit product.', 'danger');

@@ -1,4 +1,4 @@
-import React,{ useState }  from 'react';
+import React from 'react';
 import {
   CardBody,
   Row,
@@ -16,43 +16,20 @@ import {
 import PropTypes from 'prop-types';
 import * as $ from 'jquery';
 
-import api from '../../constants/api';
-
-
 const PurchaseOrderlineItemEdit = ({
+  product,
   editModal,
+  editPoProductData,
   setEditModal,
+  handlePOInputs,
 }) => {
   PurchaseOrderlineItemEdit.propTypes = {
-  
+    product: PropTypes.object,
+    editPoProductData: PropTypes.func,
     editModal: PropTypes.bool,
     setEditModal: PropTypes.func,
+    handlePOInputs: PropTypes.func,
   };
-  const [product, setProduct] = useState();
-
-
-  const handlePOInputs = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
-  };
-
-  //Edit poproductdata
-  const editPoProductData = () => {
-    const updatedProduct = {
-        ...product,
-        qty_updated: product.qty - product.qty_delivered
-    };
-
-    api
-      .post('/purchaseorder/editTabPurchaseOrderLineItem', updatedProduct)
-      .then(() => {
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 300);
-      })
-      .catch(() => {
-        console.log('error');
-      });
-};
 
   const getAllValues = () => {
     const result = [];
@@ -89,11 +66,6 @@ const PurchaseOrderlineItemEdit = ({
       result.push(allValues);
     });
   };
-
-
-  
-
-
 
   return (
     <>
@@ -144,6 +116,15 @@ const PurchaseOrderlineItemEdit = ({
                       ></Input>
                     </FormGroup>
                     <FormGroup>
+                      <Label>QTY Received</Label>
+                      <Input
+                        type="text"
+                        name="qty_requested"
+                        onChange={handlePOInputs}
+                        value={product && product.qty_requested}
+                      ></Input>
+                    </FormGroup>
+                    <FormGroup>
                       <Label>Cost Price</Label>
                       <Input
                         type="number"
@@ -182,11 +163,11 @@ const PurchaseOrderlineItemEdit = ({
                         onChange={handlePOInputs}
                       >
                         <option defaultValue="selected">Please Select</option>
-                        <option value="In Progress">in progress</option>
+                        <option value="in progress">in progress</option>
                         <option value="sent to supplier">sent to supplier</option>
                         <option value="order acknowledged">order acknowledged</option>
                         <option value="partially received">partially received</option>
-                        <option value="Closed">closed</option>
+                        <option value="closed">closed</option>
                         <option value="on hold">on hold</option>
                         <option value="cancelled">cancelled</option>
                       </Input>
@@ -205,7 +186,7 @@ const PurchaseOrderlineItemEdit = ({
               //insertPayment();
               editPoProductData();
               getAllValues();
-             // setEditModal(false);
+              setEditModal(false);
               // setTimeout(() => {
               //   window.location.reload();
               // }, 300);
