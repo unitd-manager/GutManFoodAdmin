@@ -79,7 +79,7 @@ const SectionDetails = () => {
     },
 
     {
-      name: 'Product Code',
+      name: 'Code',
       selector: 'product_code',
       sortable: true,
       grow: 0,
